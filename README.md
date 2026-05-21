@@ -1,3 +1,5 @@
+If, for some reason, you want the same neovim setup as me:
+
 Prerequisites for Ubuntu:
 ```bash
 # Neovim (get a recent version, Ubuntu's apt is often outdated)
@@ -15,3 +17,6 @@ Then
 git clone https://github.com/you/nvim-config ~/.config/nvim
 nvim
 ```
+Reasons, why you could want that:
+* It parces markdown (with latex)
+* Looks kinda cool
