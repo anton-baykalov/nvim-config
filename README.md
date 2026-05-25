@@ -14,7 +14,7 @@ pip install pylatexenc
 Then 
 ```bash
 # On the Ubuntu office PC
-git clone https://github.com/you/nvim-config ~/.config/nvim
+git clone https://github.com/anton-baykalov/nvim-config ~/.config/nvim
 nvim
 ```
 Reasons, why you could want that:
