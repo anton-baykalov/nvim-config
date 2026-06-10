@@ -19,4 +19,5 @@ nvim
 ```
 Reasons, why you could want that:
 * It parces markdown (with latex)
+* It has plug-in for sending cells of code to SageMath (or just python but some adjustments of config file are needed)
 * Looks kinda cool
