@@ -67,36 +67,50 @@ require("lazy").setup({
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = { latex = { enabled = true } },
   },
-
-  -- REPL + cell execution via vim-slime
+  
+  -- IPython REPL + cell execution
   {
-    "jpalardy/vim-slime",
+    "Vigemus/iron.nvim",
     config = function()
-      -- Start in neovim mode (internal pane, no tmux needed)
-      vim.g.slime_target = "neovim"
-      vim.g.slime_dont_ask_default = 1
-      vim.g.slime_cell_delimiter = "# %%"
+      local iron = require("iron.core")
+      local view = require("iron.view")
+      local common = require("iron.fts.common")
 
-      -- Cell, line, selection
-      vim.keymap.set("n", "<leader>se", "<Plug>SlimeSendCell",   { desc = "Send cell" })
-      vim.keymap.set("n", "<leader>sl", "<Plug>SlimeLineSend",   { desc = "Send line" })
-      vim.keymap.set("v", "<leader>sv", "<Plug>SlimeRegionSend", { desc = "Send selection" })
+      iron.setup({
+        config = {
+          scratch_repl = true,
+          repl_definition = {
+            python = {
+              command = { "sage" },
+              format = common.bracketed_paste_python,
+              block_dividers = { "# %%", "#%%" },
+            },
+  sage = {                                -- ← add this
+    command = { "sage" },
+    format = common.bracketed_paste_python,
+    block_dividers = { "# %%", "#%%" },
+  },
+          },
+          repl_open_cmd = view.split.vertical.rightbelow("40%"),
+        },
+        keymaps = {
+          send_line     = "<leader>sl",
+          send_file     = "<leader>sf",
+          visual_send   = "<leader>sv",
+          interrupt     = "<leader>si",
+          exit          = "<leader>sq",
+          clear         = "<leader>sc",
+        },
+      })
+
+      -- Send current # %% cell
+      vim.keymap.set("n", "<leader>se", function()
+        iron.send_code_block()
+      end, { desc = "Send cell to IPython" })
 
       -- Jump between cells
       vim.keymap.set("n", "]c", function() vim.fn.search("^# %%", "W")  end, { desc = "Next cell" })
       vim.keymap.set("n", "[c", function() vim.fn.search("^# %%", "bW") end, { desc = "Prev cell" })
-
-      -- Toggle between internal pane and external tmux pane
-      vim.keymap.set("n", "<leader>st", function()
-        if vim.g.slime_target == "neovim" then
-          vim.g.slime_target = "tmux"
-          vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
-          print("slime → tmux (external)")
-        else
-          vim.g.slime_target = "neovim"
-          print("slime → neovim (internal)")
-        end
-      end, { desc = "Toggle slime target" })
     end,
   },
 })
