@@ -73,9 +73,11 @@ require("lazy").setup({
     "jpalardy/vim-slime",
     config = function()
       -- Start in neovim mode (internal pane, no tmux needed)
-      vim.g.slime_target = "neovim"
+      vim.g.slime_target = "tmux"
+      vim.g.slime_default_config = { socket_name = "default", target_pane = "{last}" }
       vim.g.slime_dont_ask_default = 1
       vim.g.slime_cell_delimiter = "# %%"
+      vim.g.slime_python_ipython = 1
 
       -- Cell, line, selection
       vim.keymap.set("n", "<leader>se", "<Plug>SlimeSendCell",   { desc = "Send cell" })
