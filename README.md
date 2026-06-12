@@ -19,5 +19,5 @@ nvim
 ```
 Reasons, why you could want that:
 * It parces markdown (with latex)
-* It has plug-in for sending cells of code to SageMath (or just python but some adjustments of config file are needed)
-* Looks kinda cool
+* It has plug-in for sending cells of code (devided by '# %%') to another tmux window ('previous'). Works perfectely with IPython or SageMath opened in a second window. I use this to create IDE-like workflow without an actual IDE!
+* Looks kinda cool.
