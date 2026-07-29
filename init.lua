@@ -60,6 +60,20 @@ require("lazy").setup({
     end,
   },
 
+  -- LaTeX
+  {
+    "lervag/vimtex",
+    lazy = false, -- vimtex needs to load early to detect .tex files correctly
+    init = function()
+      -- Set these BEFORE the plugin loads (init, not config)
+      vim.g.vimtex_view_method = "zathura" -- swap for "skim" (macOS) or "sioyek" if you use those instead
+      vim.g.vimtex_quickfix_mode = 0       -- don't auto-open quickfix on warnings
+      vim.g.vimtex_syntax_enabled = 1
+      vim.g.vimtex_compiler_method = "latexmk"
+      vim.g.tex_flavor = "latex"           -- helps filetype detection default to tex not plaintex
+    end,
+  },
+
   -- Markdown rendering
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -100,5 +114,67 @@ require("lazy").setup({
         end
       end, { desc = "Toggle slime target" })
     end,
+  },
+
+  -- Snippets
+  {
+    "L3MON4D3/LuaSnip",
+    version = "v2.*", -- follow latest release
+    build = "make install_jsregexp", -- optional, needed for some snippet features
+    dependencies = {
+      "rafamadriz/friendly-snippets", -- community snippet collection
+    },
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load() -- load friendly-snippets
+      require("luasnip.loaders.from_lua").lazy_load()    -- your own luasnippets/*.lua
+      local ls = require("luasnip")
+
+      -- Expand or jump forward
+      vim.keymap.set({ "i", "s" }, "<C-k>", function()
+        if ls.expand_or_jumpable() then
+          ls.expand_or_jump()
+        end
+      end, { silent = true })
+
+      -- Jump backward
+      vim.keymap.set({ "i", "s" }, "<C-j>", function()
+        if ls.jumpable(-1) then
+          ls.jump(-1)
+        end
+      end, { silent = true })
+
+      -- Cycle choice nodes
+      vim.keymap.set("i", "<C-l>", function()
+        if ls.choice_active() then
+          ls.change_choice(1)
+        end
+      end, { silent = true })
+    end,
+  },
+
+-- Completion engine
+  {
+    "saghen/blink.cmp",
+    dependencies = { "L3MON4D3/LuaSnip" },
+    version = "*", -- use the latest release (prebuilt binary, no Rust toolchain needed)
+    opts = {
+      keymap = { preset = "default" }, -- Tab/Enter accept, Ctrl-n/Ctrl-p navigate, etc.
+
+      appearance = {
+        use_nvim_cmp_as_default = false,
+        nerd_font_variant = "mono", -- irrelevant since you're not using icons, but required field
+      },
+
+      snippets = { preset = "luasnip" }, -- tells blink to expand/jump via LuaSnip
+
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+
+      completion = {
+        documentation = { auto_show = true },
+      },
+    },
+    opts_extend = { "sources.default" },
   },
 })
