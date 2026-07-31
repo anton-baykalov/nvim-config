@@ -129,6 +129,10 @@ require("lazy").setup({
       require("luasnip.loaders.from_lua").lazy_load()    -- your own luasnippets/*.lua
       local ls = require("luasnip")
 
+      ls.setup({
+        store_selection_keys = "<C-f>", -- press this in visual mode to store selection
+      })
+
       -- Expand or jump forward
       vim.keymap.set({ "i", "s" }, "<C-k>", function()
         if ls.expand_or_jumpable() then

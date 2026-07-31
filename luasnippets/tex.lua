@@ -123,30 +123,7 @@ return {
             }
         )
     ),
-    -- arbitrarily sized matrices
-    s({trig = "([%sbBpvV])Mat(%d+)x(%d+)", snippetType="autosnippet", regTrig = true, wordTrig=false, dscr = "[bBpvV]matrix of A x B size", show_condition=math},
-        fmta([[
-        \begin{<>}
-        <>
-        \end{<>}]],
-        {
-        f(function(_, snip)
-            if  snip.captures[1] ==" " then
-                return "matrix"
-            else
-                return snip.captures[1] .. "matrix"
-            end
-        end),
-        d(1, generate_matrix),
-        f(function(_, snip)
-            if  snip.captures[1] ==" " then
-                return "matrix"
-            else
-                return snip.captures[1] .. "matrix"
-            end
-        end),
-        })
-    ),
+
     --autotrigger greek letters, with choice nodes for pi/phi, epsilon/eta, tau/theta...
     s({trig=";a", snippetType="autosnippet", desc="alpha",wordTrig=false},
         {
@@ -337,17 +314,9 @@ return {
         { condition=math }
     ),
     s({trig=";I",snippetType="autosnippet",desc="integral with infinite or inserted limits",wordTrig=false},
-        fmta([[
-            <>
-            ]],
-            {
-            c(1,{
-                t("\\int_{-\\infty}^\\infty",{key = "integral over all reals"}),
-                sn(nil,fmta([[ \int_{<>}^{<>} ]],{i(1),i(2)}),{key = "integral with insert-node limits"}),
-                })
-            }
-        )
+	fmta([[ \int_{<>}^{<>} ]],{i(1),i(2)}),{key = "integral with insert-node limits"}
     ),
+
     --postfixes for vectors, hats, etc. The match pattern is '\\' plus the default (so that hats get put on greek letters, etc)
     postfix({trig="hat", match_pattern = [[[\\%w%.%_%-%"%']+$]], snippetType="autosnippet",dscr="postfix hat when in math mode"},
         {l("\\hat{" .. l.POSTFIX_MATCH .. "}")}, 
@@ -358,14 +327,7 @@ return {
         { condition=math }
     ) ,
 
-    postfix({trig="df",snippetType="autosnippet",desc="postfix differential (physics package)"},
-        {l("\\d{" .. l.POSTFIX_MATCH .. "}")}, 
-        {condition = math}
-    ),
-    postfix({trig="diff",snippetType="autosnippet",desc="postfix differential (physics package)"},
-        {l("\\dd{" .. l.POSTFIX_MATCH .. "}")}, 
-        {condition = math}
-    ),
+
 
     s({trig = "textbf", dscr = "the textbf command, either in insert mode or wrapping a visual selection"},
         fmta("\\textbf{<>}",
@@ -393,13 +355,4 @@ return {
         )
     ),
 
-    --autotrigger latex quotation marks
-    s({trig="quote", snippetType="snippet", desc="quotation marks (enquote)"},
-        fmta(
-            [[\enquote{<>}]],
-            {
-            i(1, "text"),
-            }
-        )
-    ),
-}
+
