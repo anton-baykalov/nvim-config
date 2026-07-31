@@ -158,7 +158,7 @@ require("lazy").setup({
     dependencies = { "L3MON4D3/LuaSnip" },
     version = "*", -- use the latest release (prebuilt binary, no Rust toolchain needed)
     opts = {
-      keymap = { preset = "default" }, -- Tab/Enter accept, Ctrl-n/Ctrl-p navigate, etc.
+      keymap = { preset = "super-tab" }, -- Tab/Enter accept, Ctrl-n/Ctrl-p navigate, etc.
 
       appearance = {
         use_nvim_cmp_as_default = false,
