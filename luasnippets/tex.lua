@@ -125,7 +125,19 @@ return {
     ),
 
     --autotrigger greek letters, with choice nodes for pi/phi, epsilon/eta, tau/theta...
-    s({trig=";a", snippetType="autosnippet", desc="alpha",wordTrig=false},
+    s({trig=";Z", snippetType="autosnippet", desc="integers",wordTrig=false},
+        {
+            t("\\mathbb{Z}"),
+        },
+        {condition =math }
+    ),
+    s({trig=";Q", snippetType="autosnippet", desc="rationals",wordTrig=false},
+        {
+            t("\\mathbb{Q}"),
+        },
+        {condition =math }
+    ),
+   s({trig=";a", snippetType="autosnippet", desc="alpha",wordTrig=false},
         {
             t("\\alpha"),
         },
@@ -354,5 +366,5 @@ return {
             }
         )
     ),
-
+}
 
