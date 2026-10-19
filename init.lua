@@ -1,5 +1,13 @@
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "tex", "plaintex" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_gb"
+  end,
+})
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
